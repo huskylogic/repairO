@@ -19,7 +19,7 @@ from PyQt5.QtWidgets import (
     QStackedWidget, QComboBox, QLineEdit, QFileDialog, QProgressDialog,
     QDialog, QInputDialog, QTableWidget, QTableWidgetItem
 )
-from PyQt5.QtCore import Qt, QThread, pyqtSignal, QTimer
+from PyQt5.QtCore import Qt, QThread, pyqtSignal, QTimer, QSize
 from PyQt5.QtGui import QColor
 
 # ─────────────────────────────────────────────
@@ -1083,7 +1083,7 @@ class TriageTab(QWidget):
     def __init__(self, queue_ref):
         super().__init__()
         self.queue_ref    = queue_ref
-        self._section_idx  = 2
+        self._section_idx  = 1
         self._section_name = "Fast Fixes"
         layout = QVBoxLayout(self); layout.setContentsMargins(16,16,16,8); layout.setSpacing(10)
         hrow = QHBoxLayout()
@@ -1116,10 +1116,10 @@ class TriageTab(QWidget):
         main_win = self.window()
         if hasattr(main_win, "_go_section"):
             # Tell the queue tab which section to go back to
-            src_idx  = getattr(self, "_section_idx",  9)
+            src_idx  = getattr(self, "_section_idx",  8)
             src_name = getattr(self, "_section_name", "this section")
             self.queue_ref.set_source_section(src_idx, src_name)
-            main_win._go_section(9)
+            main_win._go_section(8)
 
 
 # ─────────────────────────────────────────────
@@ -1129,7 +1129,7 @@ class TreatTab(QWidget):
     def __init__(self, queue_ref):
         super().__init__()
         self.queue_ref    = queue_ref
-        self._section_idx  = 3
+        self._section_idx  = 2
         self._section_name = "Fix & Repair"
         layout = QVBoxLayout(self); layout.setContentsMargins(16,16,16,8); layout.setSpacing(10)
         hrow = QHBoxLayout()
@@ -1162,10 +1162,10 @@ class TreatTab(QWidget):
         main_win = self.window()
         if hasattr(main_win, "_go_section"):
             # Tell the queue tab which section to go back to
-            src_idx  = getattr(self, "_section_idx",  9)
+            src_idx  = getattr(self, "_section_idx",  8)
             src_name = getattr(self, "_section_name", "this section")
             self.queue_ref.set_source_section(src_idx, src_name)
-            main_win._go_section(9)
+            main_win._go_section(8)
 
 
 # ─────────────────────────────────────────────
@@ -2354,7 +2354,7 @@ class MaintenanceTab(QWidget):
     def __init__(self, queue_ref):
         super().__init__()
         self.queue_ref    = queue_ref
-        self._section_idx  = 4
+        self._section_idx  = 3
         self._section_name = "Clean Up"
         layout = QVBoxLayout(self); layout.setContentsMargins(16,16,16,8); layout.setSpacing(10)
         hrow = QHBoxLayout()
@@ -2398,7 +2398,7 @@ class TweaksTab(QWidget):
     def __init__(self, queue_ref):
         super().__init__()
         self.queue_ref    = queue_ref
-        self._section_idx  = 5
+        self._section_idx  = 4
         self._section_name = "Speed Up"
         layout = QVBoxLayout(self); layout.setContentsMargins(16,16,16,8); layout.setSpacing(10)
         hrow = QHBoxLayout()
@@ -2865,21 +2865,43 @@ class RunQueueTab(QWidget):
 class LogPanel(QWidget):
     def __init__(self):
         super().__init__()
-        layout = QHBoxLayout(self); layout.setContentsMargins(0,0,0,0); layout.setSpacing(8)
-        layout.addWidget(lbl("📋 Log", color=C["muted"]))
-        self.log = QTextEdit(); self.log.setReadOnly(True); self.log.setFixedHeight(65)
-        layout.addWidget(self.log)
-        clr = QPushButton("Clear"); clr.setFixedSize(56,26)
-        clr.setStyleSheet(f"background:{C['panel2']};color:{C['muted']};border:1px solid {C['border']};font-size:8pt;")
-        clr.clicked.connect(self.log.clear); layout.addWidget(clr, alignment=Qt.AlignTop)
+        layout = QVBoxLayout(self); layout.setContentsMargins(0,0,0,0); layout.setSpacing(0)
+
+        # ── Terminal header bar ──────────────────────────────────
+        hdr = QWidget(); hdr.setFixedHeight(30)
+        hdr.setStyleSheet(f"background:{C['panel']};border-top:2px solid {C['border']};")
+        hdr_l = QHBoxLayout(hdr); hdr_l.setContentsMargins(14,0,10,0); hdr_l.setSpacing(6)
+        dot = QLabel("●")
+        dot.setStyleSheet(f"color:{C['green']};font-size:10pt;background:transparent;")
+        hdr_l.addWidget(dot)
+        term_lbl = QLabel("Terminal")
+        term_lbl.setStyleSheet(
+            f"color:{C['muted']};font-size:9pt;font-weight:700;"
+            f"font-family:'Consolas','Courier New',monospace;background:transparent;")
+        hdr_l.addWidget(term_lbl)
+        hdr_l.addStretch()
+        clr = QPushButton("Clear"); clr.setFixedSize(52,22)
+        clr.setStyleSheet(
+            f"background:{C['panel2']};color:{C['muted']};"
+            f"border:1px solid {C['border']};font-size:8pt;border-radius:3px;")
+        clr.clicked.connect(lambda: self.log.clear())
+        hdr_l.addWidget(clr)
+        layout.addWidget(hdr)
+
+        # ── Log text area ────────────────────────────────────────
+        self.log = QTextEdit(); self.log.setReadOnly(True)
+        self.log.setStyleSheet(
+            "background:#0b0b16;color:#4ade80;"
+            "font-family:'Consolas','Courier New',monospace;"
+            "font-size:9pt;border:none;padding:8px;")
+        layout.addWidget(self.log, 1)
         self.entry(f"Repair-O started — {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
     def entry(self, msg, level="INFO"):
-        colors = {"INFO":C["text"],"OK":C["green"],"WARN":C["yellow"],"ERROR":C["red"]}
-        color = colors.get(level, C["text"])
+        colors = {"INFO":"#4ade80","OK":"#4ade80","WARN":"#fbbf24","ERROR":"#f87171"}
+        color = colors.get(level, "#4ade80")
         ts = datetime.now().strftime("%H:%M:%S")
-        _muted = C["muted"]
-        self.log.append(f'<span style="color:{_muted};">[{ts}]</span> <span style="color:{color};">{msg}</span>')
+        self.log.append(f'<span style="color:#555;">[{ts}]</span> <span style="color:{color};">{msg}</span>')
 
 
 # ─────────────────────────────────────────────
@@ -3624,24 +3646,10 @@ class RepairO(QMainWindow):
         logo.setStyleSheet(f"font-size:22pt;color:{C['accent']};background:transparent;")
         tbl.addWidget(logo)
         self.name_lbl = QLabel("Repair-O")
-        self.name_lbl.setStyleSheet(f"font-size:17pt;font-weight:900;color:{C['accent']};background:transparent;letter-spacing:1px;margin-left:6px;")
+        self.name_lbl.setStyleSheet(
+            f"font-size:17pt;font-weight:900;color:{C['accent']};"
+            f"background:transparent;letter-spacing:1px;margin-left:6px;")
         tbl.addWidget(self.name_lbl)
-
-        # Back-to-dashboard button (hidden when on dashboard)
-        self.back_btn = QPushButton("⬅  Dashboard")
-        self.back_btn.setStyleSheet(
-            f"background:transparent;color:{C['muted']};border:1px solid {C['border']};"
-            f"border-radius:4px;padding:4px 12px;margin-left:18px;font-size:9pt;")
-        self.back_btn.setCursor(Qt.PointingHandCursor)
-        self.back_btn.clicked.connect(self.show_dashboard)
-        self.back_btn.setVisible(False)
-        tbl.addWidget(self.back_btn)
-
-        # Current section label
-        self.section_lbl = QLabel("")
-        self.section_lbl.setStyleSheet(f"font-size:11pt;font-weight:bold;color:{C['text']};background:transparent;margin-left:10px;")
-        tbl.addWidget(self.section_lbl)
-
         tbl.addStretch()
         self.theme_btn = QPushButton("🎨  Theme")
         self.theme_btn.setStyleSheet(
@@ -3655,10 +3663,7 @@ class RepairO(QMainWindow):
         tbl.addWidget(ver)
         root.addWidget(tb)
 
-        # ── Stack: Dashboard (index 0) + each section (indices 1-9) ──
-        self.stack = QStackedWidget()
-
-        # Build all section tabs
+        # ── Build all section tabs ──────────────────────────────
         self.queue_tab    = RunQueueTab()
         self.queue_tab._nav_callback = self._go_section
         self.diagnose     = DiagnoseTab()
@@ -3673,64 +3678,121 @@ class RepairO(QMainWindow):
         self.client_notes = ClientNotesTab()
         self.network_tools = NetworkToolsTab()
 
-        # Keep tabs reference for backward compat (Run Selected Now switches to queue)
+        # Compatibility shim: old code that calls tabs.setCurrentIndex(i) still works
         _self = self
         class _FakeTabs:
             def setCurrentIndex(self2, i):
-                # Old tab index 8 = Run Queue = new stack index 9
-                stack_i = 9 if i == 8 else i
+                # queue was old tab 8 → now stack index 8; others shift down by 1
+                stack_i = 8 if i == 8 else i - 1
                 _self._go_section(stack_i)
-            def count(self2): return 13
+            def count(self2): return 12
         self.tabs = _FakeTabs()
 
-        # Dashboard widget
-        self.dashboard = self._build_dashboard()
+        # ── Stack (no dashboard — sidebar replaces it) ──────────
+        self.stack = QStackedWidget()
+        self.stack.addWidget(self.diagnose)      # 0 – Scan & Report
+        self.stack.addWidget(self.triage)        # 1 – Fast Fixes
+        self.stack.addWidget(self.treat)         # 2 – Fix & Repair
+        self.stack.addWidget(self.maintenance)   # 3 – Clean Up
+        self.stack.addWidget(self.tweaks)        # 4 – Speed Up
+        self.stack.addWidget(self.toolkit)       # 5 – Tools
+        self.stack.addWidget(self.migration)     # 6 – Move & Backup
+        self.stack.addWidget(self.uninstall)     # 7 – Remove Software
+        self.stack.addWidget(self.queue_tab)     # 8 – Run Tasks
+        self.stack.addWidget(self.quick_info)    # 9 – Quick Info
+        self.stack.addWidget(self.client_notes)  # 10 – Client Notes
+        self.stack.addWidget(self.network_tools) # 11 – Network Tools
 
-        self.stack.addWidget(self.dashboard)     # index 0
-        self.stack.addWidget(self.diagnose)      # index 1
-        self.stack.addWidget(self.triage)        # index 2
-        self.stack.addWidget(self.treat)         # index 3
-        self.stack.addWidget(self.maintenance)   # index 4
-        self.stack.addWidget(self.tweaks)        # index 5
-        self.stack.addWidget(self.toolkit)       # index 6
-        self.stack.addWidget(self.migration)     # index 7
-        self.stack.addWidget(self.uninstall)     # index 8
-        self.stack.addWidget(self.queue_tab)     # index 9
-        self.stack.addWidget(self.quick_info)    # index 10
-        self.stack.addWidget(self.client_notes)  # index 11
-        self.stack.addWidget(self.network_tools) # index 12
+        # ── Sidebar nav list (left 1/4) ─────────────────────────
+        _NAV_ITEMS = [
+            ("📊", "Scan & Report"),
+            ("⚡", "Fast Fixes"),
+            ("🔧", "Fix & Repair"),
+            ("🧹", "Clean Up"),
+            ("🚀", "Speed Up"),
+            ("🧰", "Tools"),
+            ("📦", "Move & Backup"),
+            ("🗑",  "Remove Software"),
+            ("✅", "Run Tasks"),
+            ("📋", "Quick Info"),
+            ("📝", "Client Notes"),
+            ("🌐", "Network Tools"),
+        ]
+        self.sidebar = QListWidget()
+        self.sidebar.setFocusPolicy(Qt.NoFocus)
+        self.sidebar.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        for emoji, name in _NAV_ITEMS:
+            item = QListWidgetItem(f"  {emoji}  {name}")
+            item.setSizeHint(QSize(0, 48))
+            self.sidebar.addItem(item)
+        self._style_sidebar()
+        self.sidebar.currentRowChanged.connect(self._go_section)
+        self.sidebar.setCurrentRow(0)
 
-        content = QWidget(); cl = QVBoxLayout(content)
-        cl.setContentsMargins(0,0,0,0); cl.setSpacing(0)
-        cl.addWidget(self.stack)
-        cl.addWidget(divider())
-        self.log_panel = LogPanel(); cl.addWidget(self.log_panel)
-        root.addWidget(content)
+        # ── Top section: sidebar + content (1/3 of body height) ─
+        top_area = QWidget()
+        top_layout = QHBoxLayout(top_area)
+        top_layout.setContentsMargins(0, 0, 0, 0); top_layout.setSpacing(0)
+        top_layout.addWidget(self.sidebar, 1)   # 1 part → ~1/4 width
+        top_layout.addWidget(self.stack, 3)      # 3 parts → ~3/4 width
+
+        # ── Terminal / log panel (2/3 of body height) ───────────
+        self.log_panel = LogPanel()
+
+        # ── Vertical splitter: 1/3 top, 2/3 terminal ────────────
+        self.body_splitter = QSplitter(Qt.Vertical)
+        self.body_splitter.addWidget(top_area)
+        self.body_splitter.addWidget(self.log_panel)
+        self.body_splitter.setStretchFactor(0, 1)
+        self.body_splitter.setStretchFactor(1, 2)
+        self.body_splitter.setStyleSheet(
+            f"QSplitter::handle:vertical {{"
+            f"background:{C['border']};height:3px;}}")
+        root.addWidget(self.body_splitter, 1)
 
         sb = self.statusBar()
         sb.showMessage("Repair-O v1.0  |  Ready")
         sb.setStyleSheet(f"background:{C['panel']};color:{C['muted']};border-top:1px solid {C['border']};font-size:8pt;")
 
-    # ── Stack navigation ─────────────────────────────────────────
-    _SECTION_NAMES = {
-        1: "📊  Scan & Report",   2: "⚡  Fast Fixes",       3: "🔧  Fix & Repair",
-        4: "🧹  Clean Up",        5: "🚀  Speed Up",          6: "🧰  Tools",
-        7: "📦  Move & Backup",   8: "🗑  Remove Software",   9: "✅  Run Tasks",
-        10: "📋  Quick Info",     11: "📝  Client Notes",     12: "🌐  Network Tools",
-    }
+    # ── Sidebar styling ───────────────────────────────────────────
+    def _style_sidebar(self):
+        self.sidebar.setStyleSheet(f"""
+            QListWidget {{
+                background: {C['panel']};
+                border: none;
+                border-right: 2px solid {C['border']};
+                outline: 0;
+                font-size: 10.5pt;
+                font-weight: 600;
+            }}
+            QListWidget::item {{
+                color: {C['muted']};
+                padding-left: 6px;
+                border-left: 3px solid transparent;
+            }}
+            QListWidget::item:hover {{
+                background: {C['panel2']};
+                color: {C['text']};
+            }}
+            QListWidget::item:selected {{
+                background: {C['panel2']};
+                color: {C['accent']};
+                border-left: 3px solid {C['accent']};
+            }}
+        """)
 
+    # ── Navigation ────────────────────────────────────────────────
     def _go_section(self, idx):
-        """Navigate to a section by 1-based index (mirrors old tab indices)."""
-        # Remap: old tab 8 = Run Queue → stack index 9
-        stack_idx = idx  # direct 1:1 after dashboard at 0
-        self.stack.setCurrentIndex(stack_idx)
-        self.back_btn.setVisible(True)
-        self.section_lbl.setText(self._SECTION_NAMES.get(stack_idx, ""))
+        """Navigate to section by index (0-11, matching stack and sidebar row)."""
+        if idx < 0 or idx >= self.stack.count():
+            return
+        self.stack.setCurrentIndex(idx)
+        self.sidebar.blockSignals(True)
+        self.sidebar.setCurrentRow(idx)
+        self.sidebar.blockSignals(False)
 
     def show_dashboard(self):
-        self.stack.setCurrentIndex(0)
-        self.back_btn.setVisible(False)
-        self.section_lbl.setText("")
+        self._go_section(0)
 
     def _open_theme_picker(self):
         current = _load_active_theme()
@@ -3745,129 +3807,20 @@ class RepairO(QMainWindow):
         global C, STYLESHEET
         C = dict(THEMES[theme_name])
         STYLESHEET = _build_stylesheet(C)
-        # Apply stylesheet to the whole app
         from PyQt5.QtWidgets import QApplication
         QApplication.instance().setStyleSheet(STYLESHEET)
-        # Update title bar widgets that bake in colors at creation time
-        self.back_btn.setStyleSheet(
-            f"background:transparent;color:{C['muted']};border:1px solid {C['border']};"
-            f"border-radius:4px;padding:4px 12px;font-size:9pt;")
-        self.section_lbl.setStyleSheet(
-            f"font-size:11pt;font-weight:bold;color:{C['text']};background:transparent;margin-left:10px;")
+        # Re-style widgets that bake in colors at creation time
         self.name_lbl.setStyleSheet(
-            f"font-size:17pt;font-weight:900;color:{C['accent']};background:transparent;letter-spacing:1px;margin-left:6px;")
+            f"font-size:17pt;font-weight:900;color:{C['accent']};"
+            f"background:transparent;letter-spacing:1px;margin-left:6px;")
         self.tb_widget.setStyleSheet(
             f"background:{C['panel']};border-bottom:2px solid {C['accent2']};")
         self.theme_btn.setStyleSheet(
             f"background:transparent;color:{C['muted']};border:1px solid {C['border']};"
             f"border-radius:4px;padding:4px 10px;font-size:8.5pt;margin-right:8px;")
-        # Rebuild the dashboard cards since they bake in colors
-        self._refresh_dashboard()
-
-    def _refresh_dashboard(self):
-        """Swap out the dashboard widget with a freshly built one, preserving stack indices."""
-        current_idx = self.stack.currentIndex()
-        old = self.stack.widget(0)
-        new_dash = self._build_dashboard()
-        # Replace at index 0 without shifting other widgets
-        self.stack.insertWidget(0, new_dash)   # inserted at 0, old becomes index 1
-        self.stack.removeWidget(old)            # remove old (now at 1), everything stays put
-        old.deleteLater()
-        # Restore position — indices are stable since we removed the old one
-        self.stack.setCurrentIndex(current_idx)
-        # Re-apply back button visibility
-        if current_idx == 0:
-            self.back_btn.setVisible(False)
-            self.section_lbl.setText("")
-        else:
-            self.back_btn.setVisible(True)
-
-    # ── Dashboard ─────────────────────────────────────────────────
-    def _build_dashboard(self):
-        w = QWidget()
-        w.setStyleSheet(f"background:{C['bg']};")
-        outer = QVBoxLayout(w); outer.setContentsMargins(24, 16, 24, 16); outer.setSpacing(12)
-
-        intro = QLabel("Select a section to get started")
-        intro.setStyleSheet(f"color:{C['muted']};font-size:10pt;")
-        intro.setAlignment(Qt.AlignCenter)
-        outer.addWidget(intro)
-
-        # Card definitions: (stack_idx, emoji, title, subtitle, accent_color)
-        cards = [
-            (1, "📊", "Scan & Report",  "Full system info, hardware & diagnostics",           C["accent"]),
-            (2, "⚡", "Fast Fixes",   "Common quick fixes to run first",                    C["triage"]),
-            (3, "🔧", "Fix & Repair", "Windows repairs, SFC, DISM & external tools",        C["treat"]),
-            (4, "🧹", "Clean Up",    "Temp files, browser history & disk cleanup",           C["maintain"]),
-            (5, "🚀", "Speed Up",    "Performance tweaks & registry optimisations",          C["tweaks"]),
-            (6, "🧰", "Tools",       "Download & launch repair utilities",                   C["accent2"]),
-            (7, "📦", "Move & Backup", "Backup, restore & Windows.old data recovery",        C["green"]),
-            (8, "🗑", "Remove Software", "Uninstall programs & clean up leftovers",          C["red"]),
-            (9,  "✅", "Run Tasks",      "Review & run your queued tasks",                    C["queue"]),
-            (10, "📋", "Quick Info",      "One-click machine info snapshot to clipboard",       C["accent"]),
-            (11, "📝", "Client Notes",    "Log job notes and save them per client",             C["green"]),
-            (12, "🌐", "Network Tools",   "Ping, traceroute, flush DNS, IP tools",              C["triage"]),
-        ]
-
-        # 3-column grid of cards
-        grid = QGridLayout()
-        grid.setSpacing(16)
-        grid.setColumnStretch(0, 1)
-        grid.setColumnStretch(1, 1)
-        grid.setColumnStretch(2, 1)
-        for i, (idx, emoji, title, subtitle, color) in enumerate(cards):
-            card = self._dash_card(idx, emoji, title, subtitle, color)
-            grid.addWidget(card, i // 3, i % 3)
-
-        outer.addLayout(grid)
-        outer.addStretch()
-        return w
-
-    def _dash_card(self, section_idx, emoji, title, subtitle, color):
-        btn = QFrame()
-        btn.setCursor(Qt.PointingHandCursor)
-        btn.setMinimumHeight(130)
-        btn.setStyleSheet(
-            f"QFrame{{background:{C['panel']};border:2px solid {C['border']};"
-            f"border-radius:10px;}}"
-            f"QFrame:hover{{border:2px solid {color};background:{C['panel2']};}}")
-        layout = QVBoxLayout(btn)
-        layout.setContentsMargins(20, 16, 20, 16)
-        layout.setSpacing(6)
-
-        # Top row: colored accent bar + emoji text
-        top = QHBoxLayout(); top.setSpacing(8)
-        accent_bar = QLabel("")
-        accent_bar.setFixedWidth(4)
-        accent_bar.setStyleSheet(f"background:{color};border-radius:2px;min-height:40px;max-height:40px;")
-        top.addWidget(accent_bar)
-
-        em = QLabel(emoji)
-        em.setStyleSheet(
-            f"font-size:20pt;background:transparent;border:none;"
-            f"color:{color};font-family:'Segoe UI Emoji','Apple Color Emoji',sans-serif;")
-        em.setFixedWidth(36)
-        top.addWidget(em)
-        top.addStretch()
-        layout.addLayout(top)
-
-        t = QLabel(title)
-        t.setStyleSheet(
-            f"font-size:13pt;font-weight:bold;color:{C['text']};"
-            f"background:transparent;border:none;padding:0;margin:0;")
-        layout.addWidget(t)
-
-        s = QLabel(subtitle)
-        s.setStyleSheet(
-            f"font-size:8.5pt;color:{C['muted']};"
-            f"background:transparent;border:none;padding:0;margin:0;")
-        s.setWordWrap(True)
-        layout.addWidget(s)
-        layout.addStretch()
-
-        # Make the whole card clickable
-        btn.mousePressEvent = lambda event, i=section_idx: self._go_section(i)
-        return btn
+        self.body_splitter.setStyleSheet(
+            f"QSplitter::handle:vertical {{background:{C['border']};height:3px;}}")
+        self._style_sidebar()
 
 
 if __name__ == "__main__":
