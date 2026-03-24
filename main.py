@@ -679,8 +679,11 @@ class TaskRunDialog(QDialog):
             self._stub(); return
         def worker():
             try:
+                cmd = ["powershell", "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File", script]
+                if self.task.script_args:
+                    cmd += self.task.script_args
                 self.proc = subprocess.Popen(
-                    ["powershell", "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File", script],
+                    cmd,
                     stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
                     creationflags=subprocess.CREATE_NO_WINDOW if sys.platform == "win32" else 0)
                 while True:
@@ -690,8 +693,7 @@ class TaskRunDialog(QDialog):
                     if line:
                         stripped = line.rstrip()
                         if stripped:
-                            self.out.append(stripped)
-                            QApplication.processEvents()
+                            QTimer.singleShot(0, lambda s=stripped: self.out.append(s))
                 self.proc.wait()
                 QTimer.singleShot(0, lambda: self._finish_run(self.proc.returncode))
             except Exception as e:

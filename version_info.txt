@@ -15,13 +15,13 @@ VSVersionInfo(
         StringTable(
           u'040904B0',
           [
-            StringStruct(u'CompanyName',      u'TechMedic'),
-            StringStruct(u'FileDescription',  u'TechMedic - Professional PC Repair Toolkit'),
+            StringStruct(u'CompanyName',      u'RepairO'),
+            StringStruct(u'FileDescription',  u'RepairO - Professional PC Repair Toolkit'),
             StringStruct(u'FileVersion',      u'1.0.0.0'),
-            StringStruct(u'InternalName',     u'TechMedic'),
+            StringStruct(u'InternalName',     u'RepairO'),
             StringStruct(u'LegalCopyright',   u''),
-            StringStruct(u'OriginalFilename', u'TechMedic.exe'),
-            StringStruct(u'ProductName',      u'TechMedic'),
+            StringStruct(u'OriginalFilename', u'RepairO.exe'),
+            StringStruct(u'ProductName',      u'RepairO'),
             StringStruct(u'ProductVersion',   u'1.0.0.0'),
           ]
         )
