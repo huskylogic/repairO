@@ -1,0 +1,347 @@
+{
+  "tools": [
+    {
+      "id": "stinger",
+      "name": "Trellix Stinger (McAfee)",
+      "category": "malware",
+      "filename": "stinger64.exe",
+      "url": "https://www.trellix.com/downloads/stinger/stinger64.exe",
+      "launch_args": [],
+      "description": "Detects and removes specific viruses and malware"
+    },
+    {
+      "id": "tdsskiller",
+      "name": "Kaspersky TDSSKiller",
+      "category": "malware",
+      "filename": "tdsskiller.exe",
+      "url": "https://media.kaspersky.com/utilities/VirusUtilities/EN/tdsskiller.exe",
+      "launch_args": [],
+      "description": "Removes rootkits and bootkits"
+    },
+    {
+      "id": "malwarebytes",
+      "name": "Malwarebytes",
+      "category": "malware",
+      "filename": "MBSetup.exe",
+      "url": "https://downloads.malwarebytes.com/file/mb-windows",
+      "launch_args": [],
+      "description": "Full malware scanner and remover"
+    },
+    {
+      "id": "autoruns",
+      "name": "Autoruns (Sysinternals)",
+      "category": "analysis",
+      "filename": "Autoruns64.exe",
+      "url": "https://download.sysinternals.com/files/Autoruns.zip",
+      "is_zip": true,
+      "zip_extract_file": "Autoruns64.exe",
+      "launch_args": [],
+      "description": "Comprehensive startup manager"
+    },
+    {
+      "id": "procexp",
+      "name": "Process Explorer (Sysinternals)",
+      "category": "analysis",
+      "filename": "procexp64.exe",
+      "url": "https://download.sysinternals.com/files/ProcessExplorer.zip",
+      "is_zip": true,
+      "zip_extract_file": "procexp64.exe",
+      "launch_args": [],
+      "description": "Advanced process manager"
+    },
+    {
+      "id": "killemall",
+      "name": "KillEmAll",
+      "category": "malware",
+      "filename": "killemall.exe",
+      "url": "https://www.thecleaner.nl/files/killemall.zip",
+      "is_zip": true,
+      "zip_extract_file": "killemall.exe",
+      "launch_args": [],
+      "description": "Kills all non-essential processes"
+    },
+    {
+      "id": "adwcleaner",
+      "name": "AdwCleaner",
+      "category": "malware",
+      "filename": "adwcleaner.exe",
+      "url": "https://downloads.malwarebytes.com/file/adwcleaner",
+      "launch_args": [],
+      "description": "Removes adware and PUPs"
+    },
+    {
+      "id": "rkill",
+      "name": "RKill",
+      "category": "malware",
+      "filename": "rkill.exe",
+      "url": "https://download.bleepingcomputer.com/grinler/rkill.exe",
+      "launch_args": [],
+      "description": "Stops malicious processes to allow removal"
+    },
+    {
+      "id": "apf",
+      "name": "Account Profile Fixer (Carifred)",
+      "category": "repair",
+      "filename": "APF.exe",
+      "url": "https://www.carifred.com/apf/APF.exe",
+      "launch_args": [],
+      "description": "Fixes corrupt Windows user profiles"
+    },
+    {
+      "id": "netframeworkrepair",
+      "name": ".NET Framework Repair Tool",
+      "category": "repair",
+      "filename": "NetFxRepairTool.exe",
+      "url": "https://download.microsoft.com/download/2/B/D/2BDD7B25-9E80-4BE9-8BA9-824D9B9A5252/NetFxRepairTool.exe",
+      "launch_args": [],
+      "description": "Repairs broken .NET Framework installations"
+    },
+    {
+      "id": "windowsrepair",
+      "name": "Windows Repair AIO (Tweaking.com)",
+      "category": "repair",
+      "filename": "tweaking_windows_repair.exe",
+      "url": "https://www.tweaking.com/files/setups/tweaking.com_windows_repair_aio.zip",
+      "is_zip": true,
+      "zip_extract_file": "Tweaking.com - Windows Repair.exe",
+      "launch_args": [],
+      "description": "All-in-one Windows repair tool"
+    },
+    {
+      "id": "dismpp",
+      "name": "DISM++",
+      "category": "repair",
+      "filename": "Dism++x64.exe",
+      "url": "https://github.com/Chuyu-Team/Dism-Multi-language/releases/download/v10.1.1002.1/Dism++10.1.1002.1.zip",
+      "is_zip": true,
+      "zip_extract_file": "Dism++x64.exe",
+      "launch_args": [],
+      "description": "Powerful DISM GUI for Windows image management"
+    },
+    {
+      "id": "hwinfo",
+      "name": "HWiNFO64",
+      "category": "analysis",
+      "filename": "HWiNFO64.exe",
+      "url": "https://www.hwinfo.com/files/hwi_780.zip",
+      "is_zip": true,
+      "zip_extract_file": "HWiNFO64.exe",
+      "launch_args": [],
+      "description": "Detailed hardware information and diagnostics"
+    },
+    {
+      "id": "crystaldiskinfo",
+      "name": "CrystalDiskInfo",
+      "category": "analysis",
+      "filename": "DiskInfo64.exe",
+      "url": "https://crystalmark.info/redirect.php?product=CrystalDiskInfoPortable",
+      "launch_args": [],
+      "description": "HDD/SSD health monitoring via S.M.A.R.T."
+    },
+    {
+      "id": "tcpview",
+      "name": "TCPView (Sysinternals)",
+      "category": "analysis",
+      "filename": "Tcpview.exe",
+      "url": "https://download.sysinternals.com/files/TCPView.zip",
+      "is_zip": true,
+      "zip_extract_file": "Tcpview.exe",
+      "launch_args": [],
+      "description": "Shows all TCP/UDP connections and listening ports"
+    },
+    {
+      "id": "fabs",
+      "name": "Fab's AutoBackup 7 Pro",
+      "category": "migration",
+      "filename": "AutoBackup7Pro.exe",
+      "url": "",
+      "licensed": true,
+      "license_url": "https://store.fpnet.fr/en/software/12-fab-s-autobackup-pro.html",
+      "launch_args": [],
+      "description": "Professional user data backup, restore & migration tool. Backs up documents, browsers, email clients, WiFi keys, product keys and more. Supports VSS snapshots and unbootable drives."
+    },
+    {
+      "id": "wirelesskeyview",
+      "name": "WirelessKeyView",
+      "category": "nirsoft",
+      "filename": "WirelessKeyView.exe",
+      "url": "https://www.nirsoft.net/toolsdownload/wirelesskeyview-x64.zip",
+      "is_zip": true,
+      "zip_extract_file": "WirelessKeyView.exe",
+      "launch_args": [],
+      "description": "Export all saved WiFi passwords",
+      "nirsoft": true
+    },
+    {
+      "id": "produkey",
+      "name": "ProduKey",
+      "category": "nirsoft",
+      "filename": "ProduKey.exe",
+      "url": "https://www.nirsoft.net/utils/productkeyscanner-x64.zip",
+      "is_zip": true,
+      "zip_extract_file": "ProduKey.exe",
+      "launch_args": [],
+      "description": "Recover Windows & Office product keys",
+      "nirsoft": true
+    },
+    {
+      "id": "webbrowserpassview",
+      "name": "WebBrowserPassView",
+      "category": "nirsoft",
+      "filename": "WebBrowserPassView.exe",
+      "url": "https://www.nirsoft.net/toolsdownload/webbrowserpassview.zip",
+      "is_zip": true,
+      "zip_extract_file": "WebBrowserPassView.exe",
+      "launch_args": [],
+      "description": "View saved passwords from Chrome/Firefox/Edge",
+      "nirsoft": true
+    },
+    {
+      "id": "netpass",
+      "name": "NetPass",
+      "category": "nirsoft",
+      "filename": "netpass.exe",
+      "url": "https://www.nirsoft.net/toolsdownload/netpass-x64.zip",
+      "is_zip": true,
+      "zip_extract_file": "netpass.exe",
+      "launch_args": [],
+      "description": "Recover stored Windows network credentials",
+      "nirsoft": true
+    },
+    {
+      "id": "bluescreenview",
+      "name": "BlueScreenView",
+      "category": "nirsoft",
+      "filename": "BlueScreenView.exe",
+      "url": "https://www.nirsoft.net/utils/bluescreenview-x64.zip",
+      "is_zip": true,
+      "zip_extract_file": "BlueScreenView.exe",
+      "launch_args": [],
+      "description": "Analyze past BSODs and minidumps",
+      "nirsoft": true
+    },
+    {
+      "id": "shellexview",
+      "name": "ShellExView",
+      "category": "nirsoft",
+      "filename": "ShellExView.exe",
+      "url": "https://www.nirsoft.net/utils/shexview-x64.zip",
+      "is_zip": true,
+      "zip_extract_file": "ShellExView.exe",
+      "launch_args": [],
+      "description": "Find & disable bad shell extensions causing Explorer crashes",
+      "nirsoft": true
+    },
+    {
+      "id": "lastactivityview",
+      "name": "LastActivityView",
+      "category": "nirsoft",
+      "filename": "LastActivityView.exe",
+      "url": "https://www.nirsoft.net/utils/lastactivityview.zip",
+      "is_zip": true,
+      "zip_extract_file": "LastActivityView.exe",
+      "launch_args": [],
+      "description": "Timeline of recent PC activity",
+      "nirsoft": true
+    },
+    {
+      "id": "myuninstaller",
+      "name": "MyUninstaller",
+      "category": "nirsoft",
+      "filename": "myuninst.exe",
+      "url": "https://www.nirsoft.net/utils/myuninst.zip",
+      "is_zip": true,
+      "zip_extract_file": "myuninst.exe",
+      "launch_args": [],
+      "description": "Alternative uninstaller with more detail",
+      "nirsoft": true
+    },
+    {
+      "id": "startuprun",
+      "name": "StartupRun",
+      "category": "nirsoft",
+      "filename": "startuprun.exe",
+      "url": "https://www.nirsoft.net/utils/strun.zip",
+      "is_zip": true,
+      "zip_extract_file": "startuprun.exe",
+      "launch_args": [],
+      "description": "View and manage all startup entries",
+      "nirsoft": true
+    },
+    {
+      "id": "processactivityview",
+      "name": "ProcessActivityView",
+      "category": "nirsoft",
+      "filename": "ProcessActivityView.exe",
+      "url": "https://www.nirsoft.net/utils/processactivityview.zip",
+      "is_zip": true,
+      "zip_extract_file": "ProcessActivityView.exe",
+      "launch_args": [],
+      "description": "See which processes accessed which files",
+      "nirsoft": true
+    },
+    {
+      "id": "cpuz",
+      "name": "CPU-Z",
+      "category": "hardware",
+      "filename": "cpuz.exe",
+      "url": "https://download.cpuid.com/cpu-z/cpu-z_2.09-en.zip",
+      "is_zip": true,
+      "zip_extract_file": "cpuz_x64.exe",
+      "launch_args": [],
+      "description": "Detailed CPU, RAM, and motherboard info"
+    },
+    {
+      "id": "gpuz",
+      "name": "GPU-Z",
+      "category": "hardware",
+      "filename": "GPU-Z.exe",
+      "url": "https://download.techpowerup.com/files/GPU-Z.2.59.0.exe",
+      "is_zip": false,
+      "launch_args": [],
+      "description": "Detailed GPU information and sensors"
+    },
+    {
+      "id": "speccy",
+      "name": "Speccy",
+      "category": "hardware",
+      "filename": "speccy.exe",
+      "url": "https://download.ccleaner.com/spsetup132.exe",
+      "is_zip": false,
+      "launch_args": [],
+      "description": "Complete system information summary"
+    },
+    {
+      "id": "openhardwaremonitor",
+      "name": "OpenHardwareMonitor",
+      "category": "hardware",
+      "filename": "OpenHardwareMonitor.exe",
+      "url": "https://openhardwaremonitor.org/files/openhardwaremonitor-v0.9.6.zip",
+      "is_zip": true,
+      "zip_extract_file": "OpenHardwareMonitor.exe",
+      "launch_args": [],
+      "description": "Real-time temps, voltages, fan speeds"
+    },
+    {
+      "id": "roguekiller",
+      "name": "RogueKiller",
+      "category": "malware",
+      "filename": "RogueKiller.exe",
+      "url": "https://downloads.adlice.com/roguekiller/RogueKillerX64.exe",
+      "is_zip": false,
+      "launch_args": [],
+      "description": "Advanced malware and rootkit scanner"
+    },
+    {
+      "id": "ultraadwarkiller",
+      "name": "Ultra Adware Killer",
+      "category": "malware",
+      "filename": "UltraAdwareKiller.exe",
+      "url": "https://www.ultra-adware-killer.com/files/Ultra_Adware_Killer.zip",
+      "is_zip": true,
+      "zip_extract_file": "Ultra_Adware_Killer.exe",
+      "launch_args": [],
+      "description": "Lightweight adware and PUP removal"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+PyQt5>=5.15
+pyinstaller>=6.0
+pillow>=9.0
+# Note: requests removed - downloader now uses built-in urllib
